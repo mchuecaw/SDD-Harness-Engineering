@@ -1,0 +1,33 @@
+{
+  "_comment": "Hooks que automatizan la verificación. El harness los ejecuta, no el agente, así que no se pueden saltar. El comando de tests se lee de harness.config (TEST_CMD). Añade a permissions.allow el comando de tests de tu stack para evitar prompts.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c '. ./harness.config 2>/dev/null; if [ -n \"$TEST_CMD\" ]; then eval \"$TEST_CMD\" 2>&1 | tail -3; else echo \"[harness] TEST_CMD vacío en harness.config — sin tests aún\"; fi'",
+            "description": "Tras editar o escribir archivos, corre los tests del proyecto (TEST_CMD) y muestra el resumen."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./init.sh > /tmp/harness_init.log 2>&1 && echo '[harness] init.sh OK' || (echo '[harness] init.sh FALLÓ — revisa /tmp/harness_init.log antes de cerrar' && tail -20 /tmp/harness_init.log)",
+            "description": "Antes de cerrar la sesión, fuerza una verificación completa del arnés."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(./init.sh)"
+    ]
+  }
+}

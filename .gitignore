@@ -1,0 +1,25 @@
+# Caches / artefactos de lenguaje (descomenta los de tu stack)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+dist/
+build/
+target/
+*.log
+
+# Temporales del arnés
+*.tmp
+/tmp/harness_init.log
+
+# Entornos y secretos
+.env
+.env.local
+.venv/
+venv/
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

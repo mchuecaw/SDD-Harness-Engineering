@@ -1,0 +1,26 @@
+{
+  "project": "REEMPLAZA-con-el-nombre-de-tu-proyecto",
+  "description": "REEMPLAZA con una descripción de una línea de tu proyecto.",
+  "rules": {
+    "one_feature_at_a_time": true,
+    "require_tests_to_close": true,
+    "require_approved_spec_to_implement": true,
+    "valid_status": ["pending", "spec_ready", "in_progress", "done", "blocked"],
+    "sdd_required_when": "feature has \"sdd\": true"
+  },
+  "features": [
+    {
+      "id": 1,
+      "name": "feature_de_ejemplo",
+      "title": "Feature de ejemplo (REEMPLÁZAME)",
+      "description": "Borra esta feature y añade las tuyas. Sirve para que init.sh tenga algo que validar y para que el leader tenga una feature pending con la que arrancar el flujo SDD.",
+      "acceptance": [
+        "REEMPLAZA con criterios de aceptación concretos y verificables",
+        "Cada criterio debe poder traducirse a uno o más requirements EARS (R1, R2, ...)",
+        "Cada criterio debe poder cubrirse con al menos un test concreto"
+      ],
+      "sdd": true,
+      "status": "pending"
+    }
+  ]
+}
