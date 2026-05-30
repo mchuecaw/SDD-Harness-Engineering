@@ -78,9 +78,20 @@
       `docs/architecture.md`.
 - [ ] Los ADR `superseded` no se han borrado.
 
+## C9 — Trazabilidad SCRUM (PRD → Epic → User Story)
+
+- [ ] Toda feature `"sdd": true` (= User Story) tiene `us_id` y `epic`.
+- [ ] Todo `epic` referenciado por una feature está declarado en el bloque
+      `epics` de `feature_list.json`.
+- [ ] Los `us_id` son únicos en `feature_list.json`.
+- [ ] `priority` (si está) es uno de `valid_priority`; `story_points` (si está)
+      es un entero positivo.
+- [ ] Cada User Story es trazable a un Use Case de un Epic del PRD
+      (PRD → Epic → Use Case → User Story → `feature_list.json`).
+
 ---
 
 **Cómo usar este archivo:** el agente `reviewer` (`.claude/agents/reviewer.md`)
 recorre cada checkbox, marca `[x]` o `[ ]` en su informe
 `progress/review_<feature>.md`, y rechaza el cierre de la feature si quedan
-boxes vacíos en C1-C8.
+boxes vacíos en C1-C9.

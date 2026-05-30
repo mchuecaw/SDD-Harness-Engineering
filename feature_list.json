@@ -5,15 +5,31 @@
     "one_feature_at_a_time": true,
     "require_tests_to_close": true,
     "require_approved_spec_to_implement": true,
+    "scrum_based": true,
     "valid_status": ["pending", "spec_ready", "in_progress", "done", "blocked"],
-    "sdd_required_when": "feature has \"sdd\": true"
+    "valid_priority": ["must", "should", "could", "wont"],
+    "sdd_required_when": "feature has \"sdd\": true",
+    "scrum_traceability": "toda feature con \"sdd\": true es una User Story y DEBE tener us_id (único) y epic (declarado en 'epics'). Las features ad-hoc usan \"sdd\": false y no requieren us_id/epic."
   },
+  "epics": [
+    {
+      "id": "E1",
+      "title": "Epic de ejemplo (REEMPLÁZAME)",
+      "priority": "must",
+      "outcome": "REEMPLAZA con el outcome de negocio del Epic (ver el PRD)"
+    }
+  ],
   "features": [
     {
       "id": 1,
+      "us_id": "US-001",
+      "epic": "E1",
       "name": "feature_de_ejemplo",
       "title": "Feature de ejemplo (REEMPLÁZAME)",
-      "description": "Borra esta feature y añade las tuyas. Sirve para que init.sh tenga algo que validar y para que el orquestador tenga una feature pending con la que arrancar el flujo SDD.",
+      "description": "Borra esta feature y añade las tuyas. Cada User Story sale de un Use Case del PRD (PRD -> Epic -> Use Case -> User Story). Sirve para que init.sh tenga algo que validar y para que el orquestador tenga una US pending con la que arrancar el flujo SDD.",
+      "story_points": 3,
+      "priority": "must",
+      "sprint": null,
       "acceptance": [
         "REEMPLAZA con criterios de aceptación concretos y verificables",
         "Cada criterio debe poder traducirse a uno o más requirements EARS (R1, R2, ...)",

@@ -33,7 +33,9 @@ cambios. No editas código.
    validación de ADRs la hace el reviewer general; no hay revisor de
    arquitectura aparte.
 7. Ejecuta `./init.sh`. Tiene que terminar verde.
-8. Recorre `CHECKPOINTS.md` (C1-C8). Marca `[x]` los que se cumplen, `[ ]` los que no.
+8. Recorre `CHECKPOINTS.md` (C1-C9). Marca `[x]` los que se cumplen, `[ ]` los que no.
+   Incluye C9: la feature `sdd:true` tiene `us_id` + `epic` declarado, `us_id`
+   único, y traza a un Use Case del PRD.
 9. Emite veredicto.
 
 ## Formato del veredicto
@@ -65,7 +67,7 @@ Tu salida final es **un único bloque** escrito en
 - C1: [x]
 - C2: [x]
 - ...
-- C8: [x]
+- C9: [x]
 
 ## Cambios requeridos (si aplica)
 1. Añadir test para R3.

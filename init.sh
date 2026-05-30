@@ -81,6 +81,41 @@ try:
         sys.exit(1)
     print(f"[OK]    feature_list.json válido ({len(features)} features)")
     print("[OK]    Specs presentes para features sdd con estado no-pending")
+
+    # --- Trazabilidad SCRUM (PRD -> Epic -> User Story) ---
+    rules = data.get("rules", {})
+    valid_priority = set(rules.get("valid_priority", ["must", "should", "could", "wont"]))
+    epics = data.get("epics", [])
+    epic_ids = {e.get("id") for e in epics}
+    scrum_errors = []
+    seen_us = {}
+    for f in features:
+        fid = f.get("id")
+        us_id = f.get("us_id")
+        epic = f.get("epic")
+        if f.get("sdd"):
+            if not us_id:
+                scrum_errors.append(f"feature {fid} ({f.get('name')}) es sdd:true (User Story) sin 'us_id'")
+            if not epic:
+                scrum_errors.append(f"feature {fid} ({f.get('name')}) es sdd:true (User Story) sin 'epic'")
+        if epic and epic not in epic_ids:
+            scrum_errors.append(f"feature {fid}: epic '{epic}' no está declarado en 'epics'")
+        if us_id:
+            if us_id in seen_us:
+                scrum_errors.append(f"us_id duplicado '{us_id}' (features {seen_us[us_id]} y {fid})")
+            else:
+                seen_us[us_id] = fid
+        prio = f.get("priority")
+        if prio is not None and prio not in valid_priority:
+            scrum_errors.append(f"feature {fid}: priority '{prio}' no está en valid_priority {sorted(valid_priority)}")
+        sp = f.get("story_points")
+        if sp is not None and (not isinstance(sp, int) or sp <= 0):
+            scrum_errors.append(f"feature {fid}: story_points '{sp}' debe ser un entero positivo")
+    if scrum_errors:
+        for e in scrum_errors:
+            print(f"[FAIL]  {e}")
+        sys.exit(1)
+    print(f"[OK]    Trazabilidad SCRUM válida ({len(epic_ids)} epics, {len(seen_us)} user stories)")
 except SystemExit:
     raise
 except Exception as e:

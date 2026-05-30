@@ -62,9 +62,31 @@ Frontera mental:
 | ADR                        | que decidimos tecnicamente (y por que)      |
 | spec/design.md             | como se construye esta US                   |
 
+## El backlog SCRUM en feature_list.json
+
+Este repo es **SCRUM-based**: el `feature_list.json` es el product backlog. Las
+Epics y las User Stories viven ahi de forma trazable y verificable:
+
+- Bloque `epics`: una entrada por Epic (`id` tipo `E1`, `title`, `priority`,
+  `outcome`).
+- Cada feature es una **User Story** con estos campos SCRUM:
+  - `us_id` -- id estable de la US (`US-001`). Unico en el archivo.
+  - `epic` -- el `id` del Epic al que pertenece (debe estar declarado en `epics`).
+  - `story_points` -- estimacion (entero positivo; p. ej. escala Fibonacci).
+  - `priority` -- `must | should | could | wont` (MoSCoW).
+  - `sprint` -- sprint asignado (o `null` si esta en backlog sin planificar).
+  - `name`, `title`, `description`, `acceptance`, `sdd`, `status` (como ya
+    existian).
+
+Regla dura (la verifica `init.sh` y el checkpoint C9): **toda feature
+`"sdd": true` es una User Story y DEBE tener `us_id` y `epic` declarado**; los
+`us_id` son unicos. Una feature ad-hoc (sin US de respaldo) usa `"sdd": false` y
+no requiere `us_id`/`epic`.
+
 ## Donde vive
 
-- La plantilla: `templates/prd.md`.
+- La plantilla del PRD: `templates/prd.md`.
+- El backlog (epics + user stories): `feature_list.json`.
 - El PRD real de tu proyecto: donde tu equipo lo gestione (este template no
   impone una ruta unica; lo natural es `docs/prd/<producto>.md` o un sistema de
   producto externo). Lo que SI vive en el repo es la trazabilidad Epic -> US a

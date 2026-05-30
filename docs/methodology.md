@@ -68,8 +68,9 @@ PRD → Epic → Use Case → User Story → feature_list.json → specs/<us>/
 
 - El **PRD** define el problema y las capacidades a nivel Epic + Use Case (el
   "qué" y el "por qué"). No baja a User Stories ni a EARS. Ver [`prd.md`](prd.md).
-- Cada **User Story** aterriza en `feature_list.json` como una feature
-  `"sdd": true` y arranca el ciclo SDD del repo.
+- Cada **User Story** aterriza en `feature_list.json` (el product backlog
+  SCRUM) como una feature `"sdd": true` con `us_id` y `epic` para trazar al PRD,
+  y arranca el ciclo SDD del repo. Detalle en [`prd.md`](prd.md).
 
 ## Los tres artefactos y su radio de impacto
 

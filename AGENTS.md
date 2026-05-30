@@ -22,7 +22,7 @@
 | Archivo / carpeta            | Qué contiene                                                                | Cuándo leerlo |
 |------------------------------|-----------------------------------------------------------------------------|---------------|
 | `docs/methodology.md`        | Cómo SDD y Harness Engineering encajan en un único flujo                     | Para entender el porqué de todo |
-| `feature_list.json`          | Lista de tareas con estado (`pending` / `spec_ready` / `in_progress` / `done` / `blocked`) | Siempre, al empezar |
+| `feature_list.json`          | Backlog SCRUM: `epics` + User Stories (`us_id`, `epic`, `story_points`, `priority`, `sprint`) con estado (`pending` / `spec_ready` / `in_progress` / `done` / `blocked`) | Siempre, al empezar |
 | `progress/current.md`        | Estado de la sesión actual                                                  | Siempre, al empezar |
 | `progress/history.md`        | Bitácora append-only de sesiones anteriores                                 | Si necesitas contexto histórico |
 | `specs/<feature>/`           | `requirements.md` + `design.md` + `tasks.md`                                | Antes de implementar cualquier feature con `"sdd": true` |
@@ -34,7 +34,7 @@
 | `docs/prd.md` + `templates/prd.md` | Artefacto del "qué": PRD -> Epic -> Use Case -> User Story                | Al descomponer producto en features |
 | `docs/adr.md` + `docs/adr/`  | ADRs de dos niveles (fundacional/stack y de US); índice y plantilla         | Antes de redactar `design.md` o tomar una decisión técnica |
 | `docs/skills.md` + `skills/` | Gobernanza de skills (staging, registry, doble llave humana)                | Al proponer o publicar un skill |
-| `CHECKPOINTS.md`             | Criterios objetivos de "estado final correcto" (C1-C8)                      | Para auto-evaluarte |
+| `CHECKPOINTS.md`             | Criterios objetivos de "estado final correcto" (C1-C9)                      | Para auto-evaluarte |
 | `.claude/agents/`            | Definiciones de subagentes (`orquestador`, `explorer`, `spec_author`, `implementer`, `reviewer`, `skill_author`, `skill_reviewer`) | Si orquestas trabajo |
 | `.claude/skills/`            | Skills publicados (path activo; nada entra aquí sin firma humana)           | Al consumir/publicar un skill |
 | `harness.config`             | Configuración del arnés (`TEST_CMD` de tu stack)                            | Si cambias cómo se ejecutan los tests |
