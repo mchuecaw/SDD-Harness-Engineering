@@ -30,7 +30,7 @@
 | `docs/specs.md`              | Proceso SDD: EARS notation, los 3 archivos, puerta de aprobación humana     | Antes de redactar o leer un spec |
 | `docs/verification.md`       | Cómo verificar que tu trabajo funciona (incluye trazabilidad requirements)  | Antes de declarar una tarea como `done` |
 | `CHECKPOINTS.md`             | Criterios objetivos de "estado final correcto"                              | Para auto-evaluarte |
-| `.claude/agents/`            | Definiciones de subagentes (`leader`, `explorer`, `spec_author`, `implementer`, `reviewer`) | Si orquestas trabajo |
+| `.claude/agents/`            | Definiciones de subagentes (`orquestador`, `explorer`, `spec_author`, `implementer`, `reviewer`) | Si orquestas trabajo |
 | `harness.config`             | Configuración del arnés (`TEST_CMD` de tu stack)                            | Si cambias cómo se ejecutan los tests |
 | `src/`                       | Código de la aplicación                                                     | Para implementar |
 | `tests/`                     | Tests automáticos                                                           | Para verificar |
@@ -42,7 +42,7 @@
   asegúrate de que el bloque de tests pasa al 100%.
 - **No saltes la fase de spec.** Toda feature con `"sdd": true` debe pasar
   por `spec_author` y obtener aprobación humana antes de tocar código.
-- **No saltes la puerta de aprobación humana.** El leader detiene el flujo
+- **No saltes la puerta de aprobación humana.** El orquestador detiene el flujo
   en `spec_ready` y espera.
 - **Documenta lo que haces** en `progress/current.md` mientras trabajas, no al final.
 - **Deja el repositorio limpio** antes de cerrar la sesión (ver §5).
@@ -55,13 +55,13 @@ pending → [spec_author] → spec_ready → ⏸ HUMANO → in_progress → [imp
                                                        ▲ explorers ∥ opcionales antes de spec/impl
 ```
 
-1. El leader detecta la primera feature `pending` con `"sdd": true`.
+1. El orquestador detecta la primera feature `pending` con `"sdd": true`.
 2. (Opcional) Si hace falta investigación, lanza 2-3 `explorer` en paralelo.
-3. El leader lanza `spec_author`, que crea
+3. El orquestador lanza `spec_author`, que crea
    `specs/<name>/{requirements,design,tasks}.md` y marca el status como
    `spec_ready`.
 4. **Pausa.** El humano lee el spec en `specs/<name>/` y aprueba (o pide cambios).
-5. Una vez aprobado, el leader cambia el status a `in_progress` y lanza `implementer`.
+5. Una vez aprobado, el orquestador cambia el status a `in_progress` y lanza `implementer`.
 6. El implementer ejecuta `tasks.md` una a una, marcándolas `[x]`.
 7. El reviewer verifica trazabilidad `R<n>` ↔ test y tasks completas;
    aprueba o rechaza.

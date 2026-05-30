@@ -13,7 +13,7 @@
       "id": 1,
       "name": "feature_de_ejemplo",
       "title": "Feature de ejemplo (REEMPLÁZAME)",
-      "description": "Borra esta feature y añade las tuyas. Sirve para que init.sh tenga algo que validar y para que el leader tenga una feature pending con la que arrancar el flujo SDD.",
+      "description": "Borra esta feature y añade las tuyas. Sirve para que init.sh tenga algo que validar y para que el orquestador tenga una feature pending con la que arrancar el flujo SDD.",
       "acceptance": [
         "REEMPLAZA con criterios de aceptación concretos y verificables",
         "Cada criterio debe poder traducirse a uno o más requirements EARS (R1, R2, ...)",

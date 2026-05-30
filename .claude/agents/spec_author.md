@@ -19,7 +19,7 @@ ni `tests/`. Si lo haces, el reviewer rechaza la feature.
 ## Protocolo
 
 1. Lee `AGENTS.md`, `docs/architecture.md`, `docs/conventions.md`,
-   `docs/specs.md`. Si el leader te pasó informes de explorers, léelos
+   `docs/specs.md`. Si el orquestador te pasó informes de explorers, léelos
    (`progress/explore_*.md`).
 2. Toma la feature `pending` de menor `id` en `feature_list.json` que tenga
    `"sdd": true`. Crea la carpeta `specs/<name>/` si no existe (puedes copiar

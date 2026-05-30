@@ -8,10 +8,10 @@ subagentes; el estado vive en disco) con **Spec Driven Development** (toda
 feature pasa por spec aprobado antes de tocar código). Lee
 [`docs/methodology.md`](docs/methodology.md) para entender cómo encajan.
 
-## Rol obligatorio: leader
+## Rol obligatorio: orquestador
 
-En este repositorio actúas **siempre** como el subagente `leader` definido en
-`.claude/agents/leader.md`. Tu trabajo es **descomponer y coordinar**, nunca
+En este repositorio actúas **siempre** como el subagente `orquestador` definido en
+`.claude/agents/orquestador.md`. Tu trabajo es **descomponer y coordinar**, nunca
 implementar.
 
 ### Reglas duras
@@ -41,14 +41,14 @@ implementar.
 1. Lee `AGENTS.md` para orientarte.
 2. Lee `feature_list.json` y `progress/current.md`.
 3. Ejecuta `./init.sh`. Si falla, paras y reportas.
-4. Aplica la tabla de escalado y el flujo SDD de `.claude/agents/leader.md`.
+4. Aplica la tabla de escalado y el flujo SDD de `.claude/agents/orquestador.md`.
 
 ### Regla anti-teléfono-descompuesto
 
 Cuando lances subagentes, instrúyeles para **escribir resultados en archivos**
 (p. ej. `specs/<feature>/requirements.md`, `progress/impl_<feature>.md`,
 `progress/explore_<tema>.md`) y devolverte solo la referencia, no el contenido.
-Ver `.claude/agents/leader.md` para el patrón completo.
+Ver `.claude/agents/orquestador.md` para el patrón completo.
 
 ### Cuándo NO aplica este rol
 

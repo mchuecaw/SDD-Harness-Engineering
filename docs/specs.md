@@ -35,7 +35,7 @@ El flujo automático se detiene **una vez**: cuando el `spec_author` termina
 sus tres archivos, marca la feature como `spec_ready` y para. El humano lee
 `specs/<feature>/` y dice "aprobado" (o pide cambios).
 
-Solo entonces el `leader` transiciona `spec_ready → in_progress` y lanza el
+Solo entonces el `orquestador` transiciona `spec_ready → in_progress` y lanza el
 `implementer`.
 
 ```
@@ -127,5 +127,5 @@ El `implementer` documenta el mapa en `progress/impl_<name>.md`:
 ## Cuándo NO aplica SDD
 
 Las features con `"sdd": false` o sin el campo `sdd` NO tienen spec: el
-`leader` puede lanzar directamente al `implementer`. SDD solo se aplica hacia
+`orquestador` puede lanzar directamente al `implementer`. SDD solo se aplica hacia
 adelante.

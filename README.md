@@ -19,7 +19,7 @@ para que un agente lo desarrolle bajo control.
 
 | Mitad | Qué aporta | Dónde vive |
 |-------|------------|------------|
-| **Harness Engineering** | El repo *es* el sistema; orquestación multi-agente (`leader → explorers ∥ → implementer → reviewer`); estado en disco; supervisión ejecutable. | `AGENTS.md`, `init.sh`, `feature_list.json`, `progress/`, `CHECKPOINTS.md`, `.claude/` |
+| **Harness Engineering** | El repo *es* el sistema; orquestación multi-agente (`orquestador → explorers ∥ → implementer → reviewer`); estado en disco; supervisión ejecutable. | `AGENTS.md`, `init.sh`, `feature_list.json`, `progress/`, `CHECKPOINTS.md`, `.claude/` |
 | **Spec Driven Development** | Toda feature pasa por `requirements (EARS) → design → tasks → code`, con una **puerta de aprobación humana** y **trazabilidad** requisito↔test. | `docs/specs.md`, `specs/<feature>/`, agente `spec_author`, gate `spec_ready` |
 
 La explicación completa de cómo encajan está en
@@ -29,21 +29,16 @@ La explicación completa de cómo encajan está en
 
 ## El flujo unificado
 
-```
-        ┌──────────────── HARNESS ENGINEERING (el sistema) ─────────────────┐
-        │   repo-como-sistema · orquestación multi-agente · supervisión      │
-        │                                                                    │
- tarea ─┼─► leader ─► explorers ∥ ─► spec_author ─► ⏸ HUMANO ─► implementer ─► reviewer ─┼─► done
-        │     │            │             │ (SDD)      gate         │ (SDD)        │      │
-        │  progress/    progress/     specs/<f>/                 src/+tests/  CHECKPOINTS│
-        └─────────────────────────────────────────────────────────────────────────────┘
-                                    └──────────── SDD ─────────────┘
+```text
+         ┌───────────────────────── HARNESS ENGINEERING (el sistema) ─────────────────────────┐
+tarea ─► orquestador ─► explorers ─► spec_author ─► [HUMANO] ─► implementer ─► reviewer ─► done
+                                     └───────────────────── SDD ──────────────────────┘
 ```
 
-- **Harness Engineering** = todo el recuadro (orquestación, estado en disco,
-  verificación).
-- **SDD** = el tramo `spec_author → ⏸ aprobación → implementer (por tasks) →
-  trazabilidad`, que define *cómo* se especifica y verifica cada feature.
+- **Harness Engineering** = todo el pipeline (orquestación, estado en disco,
+  verificación). El `orquestador` lo gobierna; `explorers` reúnen contexto.
+- **SDD** = el tramo `spec_author → [HUMANO] aprueba → implementer (por tasks) →
+  reviewer`, que define *qué* se construye y *cómo* se prueba cada feature.
 
 ---
 
@@ -57,7 +52,7 @@ La explicación completa de cómo encajan está en
 3. Ejecuta `./init.sh`. Debe terminar en verde (al principio avisará de que
    `TEST_CMD` no está configurado — es normal hasta que tengas tests).
 4. Abre Claude Code en la raíz. `CLAUDE.md` ya fuerza al modelo a actuar como
-   `leader` y a seguir el flujo SDD.
+   `orquestador` y a seguir el flujo SDD.
 5. Pídele: **«implementa la siguiente feature pendiente»** y observa
    `specs/` y `progress/` en tu editor mientras trabaja.
 
@@ -71,7 +66,7 @@ Walkthrough narrado de una feature completa (sin código real, solo el flujo):
 ```
 .
 ├── README.md              # Este archivo
-├── CLAUDE.md              # Carga automática: fuerza el rol leader + flujo SDD
+├── CLAUDE.md              # Carga automática: fuerza el rol orquestador + flujo SDD
 ├── AGENTS.md              # Mapa de navegación para agentes (divulgación progresiva)
 ├── CHECKPOINTS.md         # Criterios objetivos de "estado final correcto"
 ├── feature_list.json      # Alcance: una feature a la vez, con estados
@@ -94,7 +89,7 @@ Walkthrough narrado de una feature completa (sin código real, solo el flujo):
 │   ├── current.md         # Sesión activa (estado vivo)
 │   └── history.md         # Bitácora append-only
 ├── .claude/
-│   ├── agents/            # leader, explorer, spec_author, implementer, reviewer
+│   ├── agents/            # orquestador, explorer, spec_author, implementer, reviewer
 │   └── settings.json      # Hooks que automatizan la verificación
 ├── src/                   # Tu código (vacío en el template)
 └── tests/                 # Tus tests (vacío en el template)

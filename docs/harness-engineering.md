@@ -35,30 +35,30 @@ Un único agente que lo hace todo se autoengaña: implementa y se aprueba a sí
 mismo. El arnés separa responsabilidades en agentes con permisos distintos
 (ver `.claude/agents/`):
 
-```
-                 ┌─► explorer ∥   (solo lectura: investiga)
-   leader  ──────┼─► spec_author  (escribe specs, no código)
- (orquesta,      ├─► implementer  (escribe código + tests)
-  no implementa) └─► reviewer     (aprueba/rechaza, no edita)
+```text
+                  ┌─► explorer ∥   (solo lectura: investiga)
+   orquestador ───┼─► spec_author  (escribe specs, no código)
+   (orquesta,     ├─► implementer  (escribe código + tests)
+   no implementa) └─► reviewer     (aprueba/rechaza, no edita)
 ```
 
 Reglas de separación de poderes:
 
-- El **leader** no implementa (no toca `src/` ni `tests/`).
+- El **orquestador** no implementa (no toca `src/` ni `tests/`).
 - El **spec_author** no codifica (solo `specs/`).
 - El **implementer** no se autoaprueba (no marca `done` solo).
 - El **reviewer** no edita código (solo dice qué falla).
 
 ### El patrón de exploración paralela
 
-Cuando una tarea necesita entender el código antes de actuar, el leader lanza
+Cuando una tarea necesita entender el código antes de actuar, el orquestador lanza
 **2-3 `explorer` en paralelo**, cada uno con una pregunta acotada. Cada uno
 escribe `progress/explore_<tema>.md`. Esto cubre más terreno en menos tiempo y
 mantiene cada investigación enfocada.
 
 ## Pilar 3 — Estado en disco (regla anti-teléfono-descompuesto)
 
-Los subagentes **escriben sus resultados en archivos** y devuelven al leader
+Los subagentes **escriben sus resultados en archivos** y devuelven al orquestador
 solo una referencia ligera:
 
 ```

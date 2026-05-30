@@ -12,16 +12,16 @@ llamada `exportar_informe`.
 
 ## 0. Arranque
 
-Abres Claude Code en la raíz. `CLAUDE.md` lo pone en rol **leader**. Le dices:
+Abres Claude Code en la raíz. `CLAUDE.md` lo pone en rol **orquestador**. Le dices:
 
 > «implementa la siguiente feature pendiente»
 
-El leader lee `AGENTS.md`, `feature_list.json` y `progress/current.md`, y
+El orquestador lee `AGENTS.md`, `feature_list.json` y `progress/current.md`, y
 ejecuta `./init.sh`. Verde → continúa.
 
 ## 1. (Opcional) Exploración paralela
 
-Si la feature toca código que el leader no conoce, lanza 2-3 `explorer` en
+Si la feature toca código que el orquestador no conoce, lanza 2-3 `explorer` en
 paralelo, p. ej.:
 
 - «¿cómo se serializan los datos hoy?» → `progress/explore_serializacion.md`
@@ -32,7 +32,7 @@ vive en disco.
 
 ## 2. Fase Spec (SDD)
 
-El leader lanza **1 `spec_author`**. Este escribe tres archivos en
+El orquestador lanza **1 `spec_author`**. Este escribe tres archivos en
 `specs/exportar_informe/`:
 
 - `requirements.md` — los `R1..Rn` en EARS, más la tabla de trazabilidad
@@ -42,9 +42,9 @@ El leader lanza **1 `spec_author`**. Este escribe tres archivos en
 - `tasks.md` — `T1..Tn`, cada una citando los `R<n>` que cubre.
 
 Cambia el estado de la feature a `spec_ready` y **para**. Su respuesta al
-leader es una línea: `spec_ready -> specs/exportar_informe/`.
+orquestador es una línea: `spec_ready -> specs/exportar_informe/`.
 
-El leader te dice:
+El orquestador te dice:
 
 > «Spec listo en `specs/exportar_informe/`. Revísalo y di **'aprobado'** o
 > pídeme cambios.»
@@ -67,7 +67,7 @@ conforme, dices **«aprobado»**.
 
 ## 4. Fase Código (SDD dentro del arnés)
 
-Tras tu aprobación, el leader cambia el estado a `in_progress` y lanza **1
+Tras tu aprobación, el orquestador cambia el estado a `in_progress` y lanza **1
 `implementer`**. Este:
 
 1. Lee el spec completo.
@@ -79,7 +79,7 @@ Tras tu aprobación, el leader cambia el estado a `in_progress` y lanza **1
 
 ## 5. Revisión
 
-El leader lanza **1 `reviewer`**, que:
+El orquestador lanza **1 `reviewer`**, que:
 
 - Verifica que **cada `R<n>` tiene un test** que lo cubre.
 - Verifica que **todas las tasks están `[x]`**.
@@ -88,7 +88,7 @@ El leader lanza **1 `reviewer`**, que:
 - Escribe el veredicto en `progress/review_exportar_informe.md` y devuelve
   `APPROVED -> ...` o `CHANGES_REQUESTED -> ...`.
 
-Si pide cambios, el leader relanza al `implementer` con el feedback y se repite
+Si pide cambios, el orquestador relanza al `implementer` con el feedback y se repite
 la revisión.
 
 ## 6. Cierre
@@ -107,11 +107,11 @@ mueve el resumen de `progress/current.md` a `progress/history.md`, y deja
 | `specs/<feature>/requirements.md`        | spec_author        | EARS `R1`, `R2`, ... + trazabilidad |
 | `specs/<feature>/design.md`              | spec_author        | Decisiones técnicas + alternativa descartada |
 | `specs/<feature>/tasks.md`               | spec_author / implementer | Checklist `T<n>`; el implementer la marca `[x]` |
-| `progress/current.md`                    | leader / implementer | Plan vivo de la sesión |
+| `progress/current.md`                    | orquestador / implementer | Plan vivo de la sesión |
 | `progress/impl_<feature>.md`             | implementer        | Archivos tocados + mapa `R<n> → test` + output de tests |
 | `progress/review_<feature>.md`           | reviewer           | Veredicto + checkpoints |
-| `feature_list.json`                      | leader / implementer | `pending → spec_ready → in_progress → done` |
-| `progress/history.md`                    | leader / implementer | Resumen append-only al cerrar |
+| `feature_list.json`                      | orquestador / implementer | `pending → spec_ready → in_progress → done` |
+| `progress/history.md`                    | orquestador / implementer | Resumen append-only al cerrar |
 
 Abre `specs/` y `progress/` en tu editor mientras el agente trabaja: cada
 informe aparece en cuanto el subagente termina. Eso es la regla

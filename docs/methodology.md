@@ -30,7 +30,7 @@ agentes. Sus pilares:
    en archivos versionados, no en la cabeza de nadie ni en el chat:
    `AGENTS.md` (mapa), `feature_list.json` (alcance), `docs/` (estándar de
    calidad), `progress/` (estado vivo), `init.sh` (verificación).
-2. **Orquestación multi-agente.** Un `leader` descompone y coordina; agentes
+2. **Orquestación multi-agente.** Un `orquestador` descompone y coordina; agentes
    especializados (`explorer`, `spec_author`, `implementer`, `reviewer`)
    hacen el trabajo. Nadie se autoaprueba.
 3. **Estado en disco, no en chat.** Los subagentes escriben sus resultados en
@@ -62,22 +62,22 @@ Detalle completo en [`specs.md`](specs.md).
 La forma más simple de entenderlo: **Harness Engineering es el contenedor;
 SDD es lo que ocurre dentro de una de sus fases.**
 
+```text
+         ┌───────────────────────── HARNESS ENGINEERING (el sistema) ─────────────────────────┐
+tarea ─► orquestador ─► explorers ─► spec_author ─► [HUMANO] ─► implementer ─► reviewer ─► done
+                                     └───────────────────── SDD ──────────────────────┘
 ```
-        ┌──────────────── HARNESS ENGINEERING (el sistema) ─────────────────┐
-        │   repo-como-sistema · orquestación multi-agente · supervisión      │
-        │                                                                    │
- tarea ─┼─► leader ─► explorers ∥ ─► spec_author ─► ⏸ HUMANO ─► implementer ─► reviewer ─┼─► done
-        │     │            │             │ (SDD)      gate         │ (SDD)        │      │
-        │  current.md  explore_*.md  specs/<f>/                 src/+tests/  CHECKPOINTS│
-        └─────────────────────────────────────────────────────────────────────────────┘
-                                    └──────────── SDD ─────────────┘
-```
+
+- **Harness Engineering** = todo el pipeline: el `orquestador` descompone y
+  coordina, `explorers` reúnen contexto, y todo queda en disco y verificado.
+- **SDD** = el tramo `spec_author → [HUMANO] → implementer → reviewer`, donde se
+  especifica, se aprueba, se codifica y se verifica cada feature.
 
 Cada agente del arnés tiene un papel en el ciclo SDD:
 
 | Agente (Harness) | Su responsabilidad en SDD |
 |------------------|----------------------------|
-| `leader`         | Gobierna las transiciones de estado y **detiene el flujo en la puerta de aprobación humana**. |
+| `orquestador`         | Gobierna las transiciones de estado y **detiene el flujo en la puerta de aprobación humana**. |
 | `explorer`       | Reúne el contexto que el `spec_author` necesita para escribir requirements correctas. |
 | `spec_author`    | Produce los 3 artefactos SDD (`requirements`/`design`/`tasks`) y para en `spec_ready`. |
 | `implementer`    | Ejecuta las `tasks` y garantiza la **trazabilidad** `R<n> → test`. |
@@ -89,7 +89,7 @@ hace observable y verificable:
 | Estado        | Fase SDD                     | Garantía del arnés |
 |---------------|------------------------------|--------------------|
 | `pending`     | Sin spec                     | El `spec_author` es el primero en actuar. |
-| `spec_ready`  | Spec redactado, sin aprobar  | `init.sh` exige que existan los 3 archivos; el `leader` para. |
+| `spec_ready`  | Spec redactado, sin aprobar  | `init.sh` exige que existan los 3 archivos; el `orquestador` para. |
 | `in_progress` | Spec aprobado, codificando   | Como mucho 1 feature aquí a la vez (`init.sh` lo valida). |
 | `done`        | Verificado y revisado        | Tests verdes + reviewer aprobó + checkpoints. |
 | `blocked`     | Atascado                     | Razón documentada en `progress/`. |
@@ -117,6 +117,6 @@ hace el arnés.
 ## Cuándo NO aplica SDD
 
 Features marcadas `"sdd": false` (o sin el campo) saltan la fase de spec: el
-`leader` puede lanzar directamente al `implementer`. Útil para cambios
+`orquestador` puede lanzar directamente al `implementer`. Útil para cambios
 triviales o legacy. SDD se aplica **hacia adelante**, no se reescribe el
 pasado.
