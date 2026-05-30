@@ -34,7 +34,9 @@ echo "── 1. Verificando archivos base del arnés ─────────
 
 BASE_FILES="AGENTS.md CLAUDE.md feature_list.json harness.config progress/current.md \
 docs/methodology.md docs/harness-engineering.md docs/specs.md \
-docs/architecture.md docs/conventions.md docs/verification.md CHECKPOINTS.md"
+docs/architecture.md docs/conventions.md docs/verification.md CHECKPOINTS.md \
+docs/prd.md docs/adr.md docs/skills.md docs/adr/README.md docs/adr/_template.md \
+templates/prd.md skills/registry.json"
 
 for f in $BASE_FILES; do
   if [ ! -f "$f" ]; then
@@ -92,7 +94,72 @@ else
 fi
 
 echo ""
-echo "── 3. Ejecutando tests del proyecto ────────────────────"
+echo "── 3. Validando gobernanza (skills y ADRs) ─────────────"
+
+if command -v python3 >/dev/null 2>&1; then
+  python3 - <<'PY'
+import json, os, sys
+errors = []
+
+# --- Skills registry ---
+reg_path = "skills/registry.json"
+active_dir = ".claude/skills"
+if os.path.isfile(reg_path):
+    try:
+        reg = json.load(open(reg_path))
+    except Exception as e:
+        print(f"[FAIL]  skills/registry.json no parsea: {e}")
+        sys.exit(1)
+    skills = reg.get("skills", [])
+    by_name = {s.get("name"): s for s in skills}
+    for s in skills:
+        if s.get("status") == "published":
+            d = os.path.join(active_dir, s.get("name", ""))
+            if not os.path.isfile(os.path.join(d, "SKILL.md")):
+                errors.append(f"skill published '{s.get('name')}' sin {d}/SKILL.md")
+            if not s.get("approved_by"):
+                errors.append(f"skill published '{s.get('name')}' sin approved_by (humano)")
+    if os.path.isdir(active_dir):
+        for entry in sorted(os.listdir(active_dir)):
+            p = os.path.join(active_dir, entry)
+            if os.path.isdir(p):
+                s = by_name.get(entry)
+                if not s or s.get("status") != "published":
+                    errors.append(f"'{active_dir}/{entry}' no tiene entrada 'published' en skills/registry.json")
+    print(f"[OK]    skills/registry.json válido ({len(skills)} skills)")
+else:
+    errors.append("falta skills/registry.json")
+
+# --- ADRs ---
+adr_dir = "docs/adr"
+if os.path.isdir(adr_dir):
+    if not os.path.isfile(os.path.join(adr_dir, "README.md")):
+        errors.append("falta docs/adr/README.md (índice)")
+    adr_count = 0
+    for fn in sorted(os.listdir(adr_dir)):
+        if fn.startswith("ADR-") and fn.endswith(".md"):
+            adr_count += 1
+            txt = open(os.path.join(adr_dir, fn), encoding="utf-8").read()
+            if "Status:" not in txt:
+                errors.append(f"{adr_dir}/{fn} sin cabecera 'Status:'")
+            if "Scope:" not in txt:
+                errors.append(f"{adr_dir}/{fn} sin cabecera 'Scope:'")
+    print(f"[OK]    docs/adr/ válido ({adr_count} ADR(s))")
+else:
+    errors.append("falta docs/adr/")
+
+if errors:
+    for e in errors:
+        print(f"[FAIL]  {e}")
+    sys.exit(1)
+PY
+  if [ $? -ne 0 ]; then EXIT_CODE=1; fi
+else
+  warn "python3 no disponible: se omite la validación de skills y ADRs."
+fi
+
+echo ""
+echo "── 4. Ejecutando tests del proyecto ────────────────────"
 
 if [ -n "${TEST_CMD}" ]; then
   echo "    \$ ${TEST_CMD}"
@@ -108,7 +175,7 @@ else
 fi
 
 echo ""
-echo "── 4. Resumen ──────────────────────────────────────────"
+echo "── 5. Resumen ──────────────────────────────────────────"
 
 if [ $EXIT_CODE -eq 0 ]; then
   ok "Entorno listo. Puedes empezar a trabajar."

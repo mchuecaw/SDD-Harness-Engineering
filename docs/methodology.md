@@ -57,6 +57,39 @@ agente no escribe código hasta que un humano ha leído y aprobado el spec.
 
 Detalle completo en [`specs.md`](specs.md).
 
+## La jerarquía del "qué": PRD → Epic → User Story
+
+Por encima del flujo SDD hay una jerarquía de producto que decide *qué* features
+existen. No la ejecuta el arnés directamente, pero es de donde nace cada feature:
+
+```
+PRD → Epic → Use Case → User Story → feature_list.json → specs/<us>/
+```
+
+- El **PRD** define el problema y las capacidades a nivel Epic + Use Case (el
+  "qué" y el "por qué"). No baja a User Stories ni a EARS. Ver [`prd.md`](prd.md).
+- Cada **User Story** aterriza en `feature_list.json` como una feature
+  `"sdd": true` y arranca el ciclo SDD del repo.
+
+## Los tres artefactos y su radio de impacto
+
+Esta es la idea que unifica la gobernanza del repo. Tres artefactos siguen **el
+mismo patrón** (autor → revisor → puerta humana → promoción → historial
+inmutable; nadie se autoaprueba; estado en disco; verificado). Lo único que
+cambia es **cuánto se rompe si se equivocan**, y por eso la puerta es más
+estricta cuanto mayor es el radio.
+
+| Artefacto        | Radio de impacto              | Vive en                   | Máquina de estados                            | Puerta humana            |
+|------------------|-------------------------------|---------------------------|-----------------------------------------------|--------------------------|
+| Feature (US/SDD) | una feature, `src/`           | `specs/<feature>/`        | pending → spec_ready → in_progress → done     | spec_ready (la que ya existe) |
+| ADR              | un stack o todos, larga vida  | `docs/adr/ADR-XXXX.md`    | proposed → accepted → superseded              | proposed                 |
+| Skill            | todos los agentes y sesiones  | `.claude/skills/<skill>/` | proposed → review → approved → published      | proposed (doble llave)   |
+
+Regla: una feature la "aprueban" los tests. Un ADR lo aprueba un humano porque
+sobrevive a la feature. Un skill exige doble llave humana, versionado y
+supersede-no-overwrite porque reescribe el comportamiento de todos los agentes
+que vengan después. Detalle en [`adr.md`](adr.md) y [`skills.md`](skills.md).
+
 ## Cómo se conectan: SDD vive *dentro* del arnés
 
 La forma más simple de entenderlo: **Harness Engineering es el contenedor;

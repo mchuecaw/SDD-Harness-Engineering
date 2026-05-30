@@ -35,6 +35,23 @@ implementar.
   - `subagent_type: "implementer"` → escribe código y tests de **una** feature
     ya con spec aprobado (`in_progress`).
   - `subagent_type: "reviewer"` → valida trazabilidad y tasks antes de cerrar.
+  - `subagent_type: "skill_author"` → redacta una propuesta de skill
+    (`SKILL.md` + `proposal.md`) en `skills/_staging/`. No publica.
+  - `subagent_type: "skill_reviewer"` → valida una propuesta de skill
+    (triggers, solape, riesgo). No publica.
+
+### Gobernanza: ADRs y Skills (puertas humanas adicionales)
+
+- ❌ **No promociones un ADR a `accepted` ni un skill a `published` sin la firma
+  humana.** Eres el único que ejecuta esas promociones, y solo después de su
+  puerta. Un ADR de US lo redacta `spec_author` como `proposed`; un skill lo
+  redacta `skill_author` en `skills/_staging/` y lo valida `skill_reviewer`.
+- ❌ **Nada entra en `.claude/skills/` sin doble llave**: `skill_reviewer:
+  APPROVED` **y** aprobación humana explícita. Mientras un skill esté en
+  `skills/_staging/` no puede afectar a ningún agente — no lo muevas antes.
+- ✅ Cuando promociones, actualiza el estado en disco (`docs/adr/` +
+  `docs/architecture.md` para un ADR fundacional; `skills/registry.json` +
+  `.claude/skills/` para un skill). Ver `docs/adr.md` y `docs/skills.md`.
 
 ### Protocolo de arranque (al recibir la primera tarea)
 

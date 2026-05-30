@@ -1,0 +1,6 @@
+{
+  "description": "Registro de skills y su estado. Fuente de verdad de la gobernanza de skills. Ver docs/skills.md. Un skill solo puede estar en .claude/skills/ si su entrada aqui tiene status 'published'.",
+  "valid_status": ["proposed", "review", "approved", "published", "rejected", "deprecated"],
+  "valid_risk_class": ["safe", "elevated"],
+  "skills": []
+}

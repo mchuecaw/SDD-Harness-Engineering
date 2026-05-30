@@ -94,6 +94,16 @@ NO es ingeniería desde primeros principios — apóyate en
 `docs/architecture.md` y `docs/conventions.md`. El `design.md` documenta los
 puntos donde tu feature roza la frontera de esas reglas.
 
+**Trazabilidad con ADRs (regla dura).** Antes de redactar `design.md`, el
+`spec_author` lee los ADR `accepted` cuyo `Scope` sea `global` o el de su stack
+(ver [`adr.md`](adr.md)). Cada decisión técnica de `design.md` DEBE trazar a un
+ADR `accepted` o a `docs/architecture.md`. Si durante el diseño aflora una
+decisión significativa nueva (durable, con alternativas), el `spec_author` la
+**promueve** como ADR de US (`Scope: feature:<US-id>`, estado `proposed`) y para
+hasta su puerta humana. El `reviewer` rechaza si una decisión no traza a ningún
+ADR `accepted`/`architecture.md`, o si contradice a un ADR `accepted` sin
+supersede (checkpoint C8).
+
 ## tasks.md — checklist ejecutable
 
 Pasos discretos en orden, cada uno con checkbox. Cada task referencia al

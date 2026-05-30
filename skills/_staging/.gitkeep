@@ -1,0 +1,10 @@
+# Area de propuesta de skills (staging).
+#
+# Cada propuesta vive en skills/_staging/<skill-name>/ con dos archivos:
+#   - SKILL.md     (el skill: frontmatter + cuando usar / NO usar / procedimiento)
+#   - proposal.md  (rationale, scope, risk_class, casos de evaluacion)
+#
+# Mientras un skill esta aqui NO esta en el path activo (.claude/skills/), asi
+# que fisicamente no puede afectar a ningun agente. La puerta la impone el
+# sistema de archivos. Solo el orquestador lo mueve a .claude/skills/ tras
+# skill_reviewer APPROVED + firma humana. Ver docs/skills.md.

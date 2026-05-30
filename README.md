@@ -25,6 +25,23 @@ para que un agente lo desarrolle bajo control.
 La explicación completa de cómo encajan está en
 [`docs/methodology.md`](docs/methodology.md). Léela primero.
 
+### La gobernanza: tres artefactos por radio de impacto
+
+Sobre el flujo SDD, el template añade dos carriles de gobernanza más, ordenados
+por **cuánto se rompe si se equivocan**. Los tres siguen el mismo patrón (autor →
+revisor → puerta humana → promoción → historial inmutable):
+
+| Artefacto | Radio | Vive en | Puerta humana |
+|-----------|-------|---------|---------------|
+| **Feature** (US/SDD) | una feature, `src/` | `specs/<feature>/` | `spec_ready` |
+| **ADR** (decisión técnica, dos niveles) | un stack o todos, larga vida | `docs/adr/` | `proposed` |
+| **Skill** (capacidad reutilizable) | todos los agentes y sesiones | `.claude/skills/` | `proposed` (doble llave) |
+
+Por encima de todo, la jerarquía del "qué": **PRD → Epic → Use Case → User Story
+→ `feature_list.json`**. Guías: [`docs/prd.md`](docs/prd.md),
+[`docs/adr.md`](docs/adr.md), [`docs/skills.md`](docs/skills.md). Ejemplos
+rellenos en [`examples/`](examples/).
+
 ---
 
 ## El flujo unificado
@@ -73,23 +90,41 @@ Walkthrough narrado de una feature completa (sin código real, solo el flujo):
 ├── init.sh                # Verificación e inicialización del arnés
 ├── harness.config         # Config del template (TEST_CMD de tu stack)
 ├── docs/
-│   ├── methodology.md         # ★ Cómo SDD y Harness Engineering encajan
+│   ├── methodology.md         # ★ Cómo encajan SDD, Harness y la gobernanza
 │   ├── harness-engineering.md # Los pilares y el patrón de orquestación
 │   ├── specs.md               # Proceso SDD: EARS, 3 archivos, gate, trazabilidad
+│   ├── prd.md                 # Guía del PRD (PRD → Epic → Use Case → US)
+│   ├── adr.md                 # Guía de ADRs de dos niveles (Scope define el nivel)
+│   ├── skills.md              # Gobernanza de skills (staging, registry, doble llave)
 │   ├── example-walkthrough.md # Una feature de principio a fin (narrado)
-│   ├── architecture.md        # TEMPLATE: tu arquitectura
+│   ├── proceso-prd-adr-skills.md # Doc de diseño canónico del proceso extendido
+│   ├── adr/                   # ADRs del proyecto
+│   │   ├── README.md          #   índice (fundacionales y de US)
+│   │   └── _template.md       #   plantilla de ADR
+│   ├── architecture.md        # TEMPLATE: tu arquitectura (consolida ADRs fundacionales)
 │   ├── conventions.md         # TEMPLATE: tu estilo y convenciones
 │   └── verification.md        # Cómo demostrar que el trabajo funciona
+├── templates/
+│   └── prd.md             # Plantilla de PRD
 ├── specs/
 │   └── _template/         # Plantilla de los 3 archivos de spec
 │       ├── requirements.md
 │       ├── design.md
 │       └── tasks.md
+├── skills/
+│   ├── registry.json      # Registro de skills y su estado (fuente de verdad)
+│   └── _staging/          # Propuestas de skill (fuera del path activo)
 ├── progress/
 │   ├── current.md         # Sesión activa (estado vivo)
 │   └── history.md         # Bitácora append-only
+├── examples/              # Artefactos de ejemplo (Wallbox), NO activos
+│   ├── prd-eco-smart.md
+│   ├── adr/               # ADR fundacional + ADR de US de ejemplo
+│   └── skills/            # skill de ejemplo (SKILL.md + proposal.md)
 ├── .claude/
-│   ├── agents/            # orquestador, explorer, spec_author, implementer, reviewer
+│   ├── agents/            # orquestador, explorer, spec_author, implementer,
+│   │                      #   reviewer, skill_author, skill_reviewer
+│   ├── skills/            # Skills publicados (path activo; vacío en el template)
 │   └── settings.json      # Hooks que automatizan la verificación
 ├── src/                   # Tu código (vacío en el template)
 └── tests/                 # Tus tests (vacío en el template)

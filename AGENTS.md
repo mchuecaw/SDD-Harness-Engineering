@@ -14,6 +14,8 @@
 3. Lee `feature_list.json`. Toda feature nueva (`"sdd": true`) pasa por
    **Spec Driven Development** — ver `docs/specs.md` y §4 de este archivo.
 4. Lee `docs/specs.md` antes de tocar cualquier spec o feature `sdd: true`.
+5. Antes de redactar un `design.md`, lee los ADR `accepted` cuyo `Scope` sea
+   `global` o el de tu stack (lectura obligatoria) — ver `docs/adr.md`.
 
 ## 2. Mapa del repositorio
 
@@ -29,8 +31,12 @@
 | `docs/conventions.md`        | Reglas de estilo, nombres, estructura                                       | Antes de escribir código |
 | `docs/specs.md`              | Proceso SDD: EARS notation, los 3 archivos, puerta de aprobación humana     | Antes de redactar o leer un spec |
 | `docs/verification.md`       | Cómo verificar que tu trabajo funciona (incluye trazabilidad requirements)  | Antes de declarar una tarea como `done` |
-| `CHECKPOINTS.md`             | Criterios objetivos de "estado final correcto"                              | Para auto-evaluarte |
-| `.claude/agents/`            | Definiciones de subagentes (`orquestador`, `explorer`, `spec_author`, `implementer`, `reviewer`) | Si orquestas trabajo |
+| `docs/prd.md` + `templates/prd.md` | Artefacto del "qué": PRD -> Epic -> Use Case -> User Story                | Al descomponer producto en features |
+| `docs/adr.md` + `docs/adr/`  | ADRs de dos niveles (fundacional/stack y de US); índice y plantilla         | Antes de redactar `design.md` o tomar una decisión técnica |
+| `docs/skills.md` + `skills/` | Gobernanza de skills (staging, registry, doble llave humana)                | Al proponer o publicar un skill |
+| `CHECKPOINTS.md`             | Criterios objetivos de "estado final correcto" (C1-C8)                      | Para auto-evaluarte |
+| `.claude/agents/`            | Definiciones de subagentes (`orquestador`, `explorer`, `spec_author`, `implementer`, `reviewer`, `skill_author`, `skill_reviewer`) | Si orquestas trabajo |
+| `.claude/skills/`            | Skills publicados (path activo; nada entra aquí sin firma humana)           | Al consumir/publicar un skill |
 | `harness.config`             | Configuración del arnés (`TEST_CMD` de tu stack)                            | Si cambias cómo se ejecutan los tests |
 | `src/`                       | Código de la aplicación                                                     | Para implementar |
 | `tests/`                     | Tests automáticos                                                           | Para verificar |

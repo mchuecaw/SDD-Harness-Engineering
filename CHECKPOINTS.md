@@ -12,6 +12,9 @@
 - [ ] Existen los docs: `docs/methodology.md`, `docs/harness-engineering.md`,
       `docs/specs.md`, `docs/architecture.md`, `docs/conventions.md`,
       `docs/verification.md`.
+- [ ] Existen los artefactos de gobernanza: `docs/prd.md`, `docs/adr.md`,
+      `docs/skills.md`, `docs/adr/README.md`, `docs/adr/_template.md`,
+      `templates/prd.md`, `skills/registry.json`.
 - [ ] `./init.sh` termina con exit code 0.
 
 ## C2 — El estado es coherente
@@ -56,9 +59,28 @@
 - [ ] La puerta de aprobación humana se respetó: ninguna feature pasó de
       `spec_ready` a `in_progress` sin aprobación.
 
+## C7 — Gobernanza de Skills
+
+- [ ] Todo directorio en `.claude/skills/` tiene una entrada `published` en
+      `skills/registry.json`.
+- [ ] Ningún skill `proposed`/`review` está físicamente en `.claude/skills/`
+      (solo en `skills/_staging/`).
+- [ ] Todo skill `published` tiene `approved_by` (humano) y `version`.
+- [ ] Todo skill tiene `proposal.md` con casos de evaluación (triggers,
+      anti-triggers, golden case).
+
+## C8 — Gobernanza de ADRs
+
+- [ ] Todo ADR `accepted` tiene `Status`, `Scope` y >= 1 alternativa.
+- [ ] No hay dos ADR `accepted` que se contradigan en el mismo `Scope` sin un
+      link de supersede.
+- [ ] Cada decisión técnica de un `design.md` traza a un ADR `accepted` o a
+      `docs/architecture.md`.
+- [ ] Los ADR `superseded` no se han borrado.
+
 ---
 
 **Cómo usar este archivo:** el agente `reviewer` (`.claude/agents/reviewer.md`)
 recorre cada checkbox, marca `[x]` o `[ ]` en su informe
 `progress/review_<feature>.md`, y rechaza el cierre de la feature si quedan
-boxes vacíos en C1-C6.
+boxes vacíos en C1-C8.

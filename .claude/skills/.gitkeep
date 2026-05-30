@@ -1,0 +1,11 @@
+# Path activo de skills publicados.
+#
+# Claude Code carga automaticamente los skills que viven aqui
+# (.claude/skills/<skill>/SKILL.md). Por eso entrar aqui equivale a afectar a
+# todos los agentes y sesiones.
+#
+# Regla dura (doble llave): nada entra en este directorio sin
+#   1) skill_reviewer: APPROVED, y
+#   2) firma humana explicita.
+# Y toda carpeta aqui debe tener una entrada 'published' en skills/registry.json
+# (init.sh lo verifica). Ver docs/skills.md.
